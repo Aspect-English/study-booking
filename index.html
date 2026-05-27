@@ -332,20 +332,6 @@
     "2026-12-25"
 ];
 
-    const selectedDate = this.value;
-
-    if (holidayList.includes(selectedDate)) {
-
-    ```
-    alert("此日期為國定假日，Aspect K書會館公休，暫不開放預約。");
-
-    this.value = "";
-    ```
-
-    }
-
-};
-
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzI_ReRWMB4sEtKLYbZ_rzm5O_f8iyz4F_l_IORoVg6R1bSlXaQROgQf1WOFwSHy9RWAA/exec";
 
     // 取消頁面網址：若你的 cancel.html 上傳在 Netlify 根目錄，這樣即可
@@ -442,21 +428,26 @@
 
     function handleDateChange() {
       const dateInput = document.getElementById("bookingDate");
-      const todayString = getTodayString()
+      const todayString = getTodayString();
+
       if (holidayList.includes(dateInput.value)) {
-      alert("此日期為國定假日，Aspect K書會館公休，暫不開放預約。");
-      dateInput.value = "";
-      selectedDate = "";
-      selectedTimes = [];
-      selectedRow = "";
-      selectedDayType = "";
-      document.getElementById("dayTypeText").innerText = "請先選擇日期";
-      document.getElementById("timeButtons").innerHTML = "";
-      document.getElementById("selectedTimesText").innerText = "尚未選擇時段";
-      document.getElementById("selectedSeatText").innerText = "尚未選擇排位";
-      renderRows();
-      return;
-};
+        alert("此日期為國定假日，Aspect K書會館公休，暫不開放預約。");
+
+        dateInput.value = "";
+        selectedDate = "";
+        selectedTimes = [];
+        selectedRow = "";
+        selectedDayType = "";
+        releaseLocks();
+
+        document.getElementById("dayTypeText").innerText = "請先選擇日期";
+        document.getElementById("timeButtons").innerHTML = "";
+        document.getElementById("selectedTimesText").innerText = "尚未選擇時段";
+        document.getElementById("selectedSeatText").innerText = "尚未選擇排位";
+
+        renderRows();
+        return;
+      }
 
       if (dateInput.value && dateInput.value < todayString) {
         alert("無法預約今天以前的日期");
@@ -758,9 +749,12 @@
     async function submitBooking() {
       const name = document.getElementById("name").value.trim();
       const phone = document.getElementById("phone").value.trim();
-      if (!/^0\d{7,9}$/.test(phone)) {alert("請輸入正確電話號碼，需以 0 開頭，且只能輸入數字。\n例如：062289600 或 0912345678");
-  return;
-}
+
+      if (!/^0\d{7,9}$/.test(phone)) {
+        alert("請輸入正確電話號碼，需以 0 開頭，且只能輸入數字。\n例如：062289600 或 0912345678");
+        return;
+      }
+
       const email = document.getElementById("email").value.trim();
 
       if (!selectedDate || selectedTimes.length === 0 || !selectedRow || !userType) {
