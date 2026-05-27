@@ -331,7 +331,6 @@
     "2026-10-25",
     "2026-12-25"
 ];
-    document.getElementById("bookingDate").addEventListener("change", function () {
 
     const selectedDate = this.value;
 
@@ -345,7 +344,7 @@
 
     }
 
-});
+};
 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzI_ReRWMB4sEtKLYbZ_rzm5O_f8iyz4F_l_IORoVg6R1bSlXaQROgQf1WOFwSHy9RWAA/exec";
 
@@ -443,7 +442,21 @@
 
     function handleDateChange() {
       const dateInput = document.getElementById("bookingDate");
-      const todayString = getTodayString();
+      const todayString = getTodayString()
+      if (holidayList.includes(dateInput.value)) {
+      alert("此日期為國定假日，Aspect K書會館公休，暫不開放預約。");
+      dateInput.value = "";
+      selectedDate = "";
+      selectedTimes = [];
+      selectedRow = "";
+      selectedDayType = "";
+      document.getElementById("dayTypeText").innerText = "請先選擇日期";
+      document.getElementById("timeButtons").innerHTML = "";
+      document.getElementById("selectedTimesText").innerText = "尚未選擇時段";
+      document.getElementById("selectedSeatText").innerText = "尚未選擇排位";
+      renderRows();
+      return;
+};
 
       if (dateInput.value && dateInput.value < todayString) {
         alert("無法預約今天以前的日期");
