@@ -280,7 +280,7 @@
     <div class="box">
       <h2>5. 填寫資料</h2>
       <input id="name" placeholder="姓名" />
-      <input id="phone" placeholder="請輸入電話"  required type="tel"/>
+      <input id="phone" placeholder="請輸入電話，例如 0912345678"  required type="tel"/>
      
       <input id="email" placeholder="Email" />
     </div>
@@ -712,6 +712,9 @@
     async function submitBooking() {
       const name = document.getElementById("name").value.trim();
       const phone = document.getElementById("phone").value.trim();
+      if (!/^0\d{7,9}$/.test(phone)) {alert("請輸入正確電話號碼，需以 0 開頭，且只能輸入數字。\n例如：062289600 或 0912345678");
+  return;
+}
       const email = document.getElementById("email").value.trim();
 
       if (!selectedDate || selectedTimes.length === 0 || !selectedRow || !userType) {
