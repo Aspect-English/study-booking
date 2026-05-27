@@ -313,6 +313,39 @@
     const supabaseUrl = "https://uebzafxelfpfmpqbcgwd.supabase.co";
     const supabaseKey = "sb_publishable_JTcWsklR-rYX5AqKYxdymQ_b746IsEe";
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+    const holidayList = [
+    "2026-01-01",
+    "2026-02-16",
+    "2026-02-17",
+    "2026-02-18",
+    "2026-02-19",
+    "2026-02-20",
+    "2026-02-28",
+    "2026-04-04",
+    "2026-04-05",
+    "2026-05-01",
+    "2026-06-19",
+    "2026-09-25",
+    "2026-09-28",
+    "2026-10-10",
+    "2026-10-25",
+    "2026-12-25"
+];
+    document.getElementById("bookingDate").addEventListener("change", function () {
+
+    const selectedDate = this.value;
+
+    if (holidayList.includes(selectedDate)) {
+
+    ```
+    alert("此日期為國定假日，Aspect K書會館公休，暫不開放預約。");
+
+    this.value = "";
+    ```
+
+    }
+
+});
 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzI_ReRWMB4sEtKLYbZ_rzm5O_f8iyz4F_l_IORoVg6R1bSlXaQROgQf1WOFwSHy9RWAA/exec";
 
