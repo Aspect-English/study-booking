@@ -6,37 +6,121 @@
   <title>Aspect K書會館預約系統</title>
 
   <style>
+
     body {
       font-family: "Microsoft JhengHei", Arial, sans-serif;
-      background: #f5f1e8;
+      background: linear-gradient(180deg, #f7efe3 0%, #f5f1e8 45%, #fbf7ef 100%);
       padding: 20px;
       margin: 0;
+      color: #2b2118;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
     h1 {
       text-align: center;
       color: #8b3a0e;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       font-size: 50px;
     }
 
+    .app-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .left-column,
+    .right-column {
+      min-width: 0;
+    }
+
+    .right-column {
+      position: sticky;
+      top: 18px;
+    }
+
     .box {
-      background: white;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(139, 58, 14, 0.12);
       border-radius: 14px;
       padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(91, 55, 26, 0.08);
     }
 
     h2 {
       margin-top: 0;
       font-size: 22px;
       color: #333;
+    }
+
+    .date-card {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(180px, 260px);
+      gap: 14px;
+      align-items: center;
+    }
+
+    #dayTypeText {
+      margin: 8px 0 0;
+      color: #9b4b12;
+      font-weight: 700;
+    }
+
+    #bookingDate {
+      margin-bottom: 0;
+    }
+
+    .time-hint {
+      color: #777;
+      font-size: 15px;
+      font-weight: 400;
+      margin-left: 8px;
+    }
+
+    #timeButtons {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    #timeButtons button {
+      width: 100%;
+      margin: 0;
+      min-height: 48px;
+      background: #fff;
+      border: 1px solid #d9c9b8;
+      box-shadow: 0 2px 6px rgba(91, 55, 26, 0.04);
+    }
+
+    #timeButtons button:hover:not(:disabled) {
+      background: #fff4e8;
+      border-color: #b76b2a;
+    }
+
+    #selectedTimesText,
+    #selectedSeatText,
+    #userTypeText {
+      margin-bottom: 0;
+      color: #8b3a0e;
+      font-weight: 700;
+    }
+
+    .mobile-price-hint {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #fff7ec;
+      color: #8b3a0e;
+      font-weight: 700;
+      border: 1px solid #ecd4bd;
     }
 
     button {
@@ -79,6 +163,16 @@
       border-radius: 8px;
       font-size: 16px;
       box-sizing: border-box;
+      background: #fff;
+    }
+
+    .input-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .input-grid input {
+      margin: 0;
     }
 
     .room {
@@ -166,6 +260,10 @@
       color: white;
       border: none;
       margin-top: 10px;
+      min-height: 58px;
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: 0 8px 16px rgba(139, 58, 14, 0.2);
     }
 
     .submit-btn:hover:not(:disabled) {
@@ -179,6 +277,143 @@
 
     .notice {
       line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .side-box {
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(139, 58, 14, 0.12);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(91, 55, 26, 0.08);
+    }
+
+    .side-title {
+      margin: 0 0 14px;
+      color: #3b2414;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .receipt {
+      position: relative;
+      background: #fffaf3;
+      border: 1px solid #ead4bc;
+      border-radius: 14px;
+      padding: 22px 20px;
+      overflow: hidden;
+    }
+
+    .receipt::before,
+    .receipt::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: radial-gradient(circle at 10px 6px, transparent 7px, #fffaf3 8px) repeat-x;
+      background-size: 20px 12px;
+    }
+
+    .receipt::before {
+      top: -1px;
+    }
+
+    .receipt::after {
+      bottom: -1px;
+      transform: rotate(180deg);
+    }
+
+    .receipt-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      margin: 2px 0 18px;
+      color: #4a2a16;
+    }
+
+    .receipt-line {
+      border-top: 1px dashed #c9a98c;
+      margin: 14px 0;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      margin: 14px 0;
+    }
+
+    .receipt-total-label {
+      text-align: center;
+      font-size: 17px;
+      font-weight: 800;
+      color: #3b2414;
+      margin-top: 14px;
+    }
+
+    .receipt-total {
+      text-align: center;
+      color: #b65312;
+      font-size: 48px;
+      line-height: 1.1;
+      font-weight: 900;
+      margin: 8px 0 4px;
+    }
+
+    .payment-box {
+      margin-top: 16px;
+      background: #f3faef;
+      border: 1px solid #d9edd1;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .payment-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #2d6b2f;
+    }
+
+    .payment-method {
+      font-size: 24px;
+      font-weight: 900;
+      color: #178b34;
+    }
+
+    .payment-note {
+      color: #777;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .safe-box {
+      background: #fff8ee;
+      border: 1px solid #efdac1;
+      border-radius: 12px;
+      padding: 16px;
+      line-height: 1.7;
+      color: #4a2a16;
+    }
+
+    @media screen and (max-width: 980px) {
+      .app-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .right-column {
+        position: static;
+      }
+
+      .mobile-price-hint {
+        display: block;
+      }
     }
 
     @media screen and (max-width: 768px) {
@@ -192,17 +427,47 @@
         margin-bottom: 10px !important;
       }
 
-      .box {
+      .box,
+      .side-box {
         padding: 16px;
         margin-bottom: 16px;
         overflow: hidden;
       }
 
+      .date-card {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
       #bookingDate {
-        width: 85%;
+        width: 100%;
         max-width: 500px;
         display: block;
-        margin: 10px auto;
+        margin: 10px auto 0;
+      }
+
+      #timeButtons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      #timeButtons button {
+        font-size: 14px;
+        padding: 10px 8px;
+      }
+
+      .time-hint {
+        display: block;
+        margin-left: 0;
+        margin-top: 4px;
+      }
+
+      .receipt-total {
+        font-size: 40px;
+      }
+
+      .payment-method {
+        font-size: 21px;
       }
 
       .room {
@@ -239,6 +504,7 @@
         box-sizing: border-box;
       }
     }
+
   </style>
 </head>
 
@@ -246,64 +512,112 @@
   <div class="container">
     <h1>Aspect K書會館預約系統</h1>
 
-    <div class="box">
-      <h2>1. 選擇日期</h2>
-      <input type="date" id="bookingDate" onchange="handleDateChange()" />
-      <p id="dayTypeText">請先選擇日期</p>
-    </div>
+    <div class="app-layout">
+      <div class="left-column">
+        <div class="box">
+          <h2>1. 選擇日期</h2>
+          <div class="date-card">
+            <input type="date" id="bookingDate" onchange="handleDateChange()" />
+            <p id="dayTypeText">請先選擇日期</p>
+          </div>
+        </div>
 
-    <div class="box">
-      <h2>2. 選擇時段</h2>
-      <div id="timeButtons"></div>
-      <p id="selectedTimesText">尚未選擇時段</p>
-    </div>
+        <div class="box">
+          <h2>2. 選擇時段 <span class="time-hint">可複選（每時段 $45）</span></h2>
+          <div id="timeButtons"></div>
+          <p id="selectedTimesText">尚未選擇時段</p>
+          <div id="mobilePriceHint" class="mobile-price-hint">請先選擇時段，系統會自動計算金額</div>
+        </div>
 
-    <div class="box">
-      <h2>3. 是否為雅斯貝學員</h2>
-      <button type="button" onclick="selectUserType(this, 'internal')">雅斯貝學員</button>
-      <button type="button" onclick="selectUserType(this, 'external')">班外生</button>
-      <p id="userTypeText">尚未選擇身分</p>
-    </div>
+        <div class="box">
+          <h2>3. 是否為雅斯貝學員</h2>
+          <button type="button" onclick="selectUserType(this, 'internal')">雅斯貝學員</button>
+          <button type="button" onclick="selectUserType(this, 'external')">班外生</button>
+          <p id="userTypeText">尚未選擇身分</p>
+        </div>
 
-    <div class="box">
-      <h2>4. 選擇排位</h2>
-      <p style="color: #666;">※ 同一排座位皆可使用</p>
+        <div class="box">
+          <h2>4. 選擇排位</h2>
+          <p style="color: #666;">※ 同一排座位皆可使用</p>
 
-      <div class="room">
-        <div class="stage">講台</div>
-        <div id="seatGrid" class="seat-grid"></div>
+          <div class="room">
+            <div class="stage">講台</div>
+            <div id="seatGrid" class="seat-grid"></div>
+          </div>
+
+          <p id="selectedSeatText">尚未選擇排位</p>
+        </div>
+
+        <div class="box">
+          <h2>5. 填寫資料</h2>
+          <div class="input-grid">
+            <input id="name" placeholder="姓名" />
+            <input id="phone" placeholder="請輸入電話，例如 0912345678" required type="tel" />
+            <input id="email" placeholder="Email" />
+          </div>
+        </div>
+
+        <div class="box">
+          <h2>結果</h2>
+          <p id="resultText">尚未預約</p>
+        </div>
       </div>
 
-      <p id="selectedSeatText">尚未選擇排位</p>
-    </div>
+      <div class="right-column">
+        <div class="side-box">
+          <h2 class="side-title">費用資訊</h2>
 
-    <div class="box">
-      <h2>5. 填寫資料</h2>
-      <input id="name" placeholder="姓名" />
-      <input id="phone" placeholder="請輸入電話，例如 0912345678"  required type="tel"/>
-     
-      <input id="email" placeholder="Email" />
-    </div>
+          <div class="receipt">
+            <div class="receipt-title">費用明細</div>
 
-    <div class="box">
-      <h2>館內規則</h2>
-      <div class="notice">
-        ● 本會館採預約制<br />
-        ● 預約送出前，座位會為您保留 10 分鐘<br />
-        ● 離席超過 20 分鐘，座位將釋出給候補同學<br />
-        ● 讀書期間請勿任意進出教室（生理需求除外）<br />
-        ● 如需取消預約，請於預約日前透過確認信連結取消<br />
-        ● 預約當天取消請私訊官方 LINE 聯繫我們
+            <div class="receipt-line"></div>
+
+            <div class="receipt-row">
+              <span>時段單價</span>
+              <span>$45</span>
+            </div>
+
+            <div class="receipt-row">
+              <span>時段數量</span>
+              <span id="receiptSlotCount">× 0</span>
+            </div>
+
+            <div class="receipt-line"></div>
+
+            <div class="receipt-total-label">應付金額</div>
+            <div id="receiptTotalPrice" class="receipt-total">$0</div>
+          </div>
+
+          <div class="payment-box">
+            <div class="payment-title">付款方式</div>
+            <div class="payment-method">現金臨櫃付款</div>
+            <div class="payment-note">※ 請於預約當日現場付款</div>
+          </div>
+        </div>
+
+        <div class="side-box">
+          <h2 class="side-title">館內規則</h2>
+          <div class="notice">
+            ● 本會館採預約制<br />
+            ● 預約座位保留 10 分鐘，逾時未到將釋出<br />
+            ● 本會館提供一人一個插座<br />
+            ● 離席超過 20 分鐘，座位將釋出給候補同學<br />
+            ● 預約當天取消請私訊官方 LINE 聯繫我們<br />
+            ● 讀書期間請勿任意進出教室（生理需求除外）<br />
+            ● 如需取消預約，請於預約日前透過確認信連結取消<br />
+            ● 請勿私接延長線或多孔轉接設備，以維護館內用電安全。
+          </div>
+
+          <button type="button" class="submit-btn" onclick="submitBooking()">送出預約</button>
+        </div>
+
+        <div class="side-box">
+          <div class="safe-box">
+            <strong>資料安全保障</strong><br />
+            您的資料將安全送出，僅供預約使用，請安心填寫。
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="box">
-      <button type="button" class="submit-btn" onclick="submitBooking()">送出預約</button>
-    </div>
-
-    <div class="box">
-      <h2>結果</h2>
-      <p id="resultText">尚未預約</p>
     </div>
   </div>
 
@@ -313,6 +627,10 @@
     const supabaseUrl = "https://uebzafxelfpfmpqbcgwd.supabase.co";
     const supabaseKey = "sb_publishable_JTcWsklR-rYX5AqKYxdymQ_b746IsEe";
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // 每一個時段的固定單價
+    const UNIT_PRICE = 45;
+    const PAYMENT_METHOD = "現金臨櫃付款";
     const holidayList = [
     "2026-01-01",
     "2026-02-16",
@@ -375,6 +693,34 @@
     ];
 
     const TOTAL_ROWS = 12;
+
+    function calculateTotalPrice() {
+      return selectedTimes.length * UNIT_PRICE;
+    }
+
+    function updatePriceInfo() {
+      const slotCount = selectedTimes.length;
+      const totalPrice = calculateTotalPrice();
+
+      const receiptSlotCount = document.getElementById("receiptSlotCount");
+      const receiptTotalPrice = document.getElementById("receiptTotalPrice");
+      const mobilePriceHint = document.getElementById("mobilePriceHint");
+
+      if (receiptSlotCount) {
+        receiptSlotCount.innerText = "× " + slotCount;
+      }
+
+      if (receiptTotalPrice) {
+        receiptTotalPrice.innerText = "$" + totalPrice;
+      }
+
+      if (mobilePriceHint) {
+        mobilePriceHint.innerText =
+          slotCount === 0
+            ? "請先選擇時段，系統會自動計算金額"
+            : "已選 " + slotCount + " 個時段，應付金額 $" + totalPrice;
+      }
+    }
 
     function generateLockToken() {
       return "lock_" + Date.now() + "_" + Math.random().toString(36).slice(2);
@@ -445,6 +791,7 @@
         document.getElementById("selectedTimesText").innerText = "尚未選擇時段";
         document.getElementById("selectedSeatText").innerText = "尚未選擇排位";
 
+        updatePriceInfo();
         renderRows();
         return;
       }
@@ -462,6 +809,7 @@
 
       document.getElementById("selectedTimesText").innerText = "尚未選擇時段";
       document.getElementById("selectedSeatText").innerText = "尚未選擇排位";
+      updatePriceInfo();
 
       if (!selectedDate) {
         document.getElementById("dayTypeText").innerText = "請先選擇日期";
@@ -564,6 +912,7 @@
           document.getElementById("selectedSeatText").innerText = "尚未選擇排位";
           document.getElementById("selectedTimesText").innerText =
             selectedTimes.length === 0 ? "尚未選擇時段" : "已選：" + selectedTimes.join("、");
+          updatePriceInfo();
 
           renderRows();
         };
@@ -792,6 +1141,8 @@
       }
 
       const timeText = selectedTimes.join("、");
+      const slotCount = selectedTimes.length;
+      const totalPrice = calculateTotalPrice();
       const cancelToken = generateCancelToken();
       const cancelUrl = buildCancelUrl(selectedDate, phone, email, cancelToken);
 
@@ -837,6 +1188,10 @@
         row: selectedRow,
         seat: selectedRow,
         userType: userType,
+        unitPrice: UNIT_PRICE,
+        slotCount: slotCount,
+        totalPrice: totalPrice,
+        paymentMethod: PAYMENT_METHOD,
         cancelToken: cancelToken,
         cancelUrl: cancelUrl
       };
@@ -859,7 +1214,11 @@
         "開放類型：" + selectedDayType + "\n" +
         "時段：" + timeText + "\n" +
         "排位：" + selectedRow + "\n" +
-        "身分：" + getUserTypeText(userType);
+        "身分：" + getUserTypeText(userType) + "\n" +
+        "時段單價：$" + UNIT_PRICE + "\n" +
+        "時段數量：" + slotCount + " 個\n" +
+        "應付金額：$" + totalPrice + "\n" +
+        "付款方式：" + PAYMENT_METHOD;
 
       alert("預約已送出，系統將寄出確認信！");
 
@@ -877,6 +1236,7 @@
 
     window.addEventListener("DOMContentLoaded", function() {
       setMinDate();
+      updatePriceInfo();
       renderRows();
     });
   </script>
