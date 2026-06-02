@@ -507,6 +507,19 @@
       color: #ffd8b3;
     }
 
+
+    .mobile-timetable-btn {
+      display: none;
+      border: none;
+      margin: 0;
+    }
+
+    .mobile-timetable-icon {
+      font-size: 22px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
     @media screen and (max-width: 1100px) {
       .main-with-timetable {
         grid-template-columns: 300px minmax(0, 1fr);
@@ -538,7 +551,7 @@
 
     @media screen and (max-width: 768px) {
       body {
-        padding: 12px;
+        padding: 12px 12px 92px;
       }
 
       h1 {
@@ -547,32 +560,50 @@
         margin-bottom: 10px !important;
       }
 
-      .timetable-wrapper {
-        position: static;
-        overflow-x: auto;
-        padding: 10px;
-        border-radius: 16px;
-        -webkit-overflow-scrolling: touch;
+      .mobile-timetable-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        right: 16px;
+        bottom: 18px;
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: #8b3a0e;
+        color: white;
+        font-size: 12px;
+        font-weight: 800;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+        z-index: 9999;
+        cursor: pointer;
       }
 
-      .timetable-image {
-        min-width: 600px;
-        width: 600px;
+      .timetable-wrapper {
+        display: none;
+      }
+
+      .main-with-timetable {
+        display: block;
+      }
+
+      .image-modal {
+        overflow: auto;
+        align-items: flex-start;
+        padding-top: 70px;
       }
 
       .modal-image {
-        max-width: 98%;
-        max-height: 80vh;
+        max-width: none;
+        width: 960px;
+        max-height: none;
       }
 
       .close-modal {
         top: 14px;
         right: 18px;
         font-size: 40px;
-      }
-
-      .zoom-tip {
-        font-size: 13px;
       }
 
 
@@ -589,10 +620,17 @@
       }
 
       #bookingDate {
-        width: 100%;
-        max-width: 500px;
+        width: 72%;
+        max-width: 260px;
+        min-width: 190px;
         display: block;
-        margin: 10px auto 0;
+        height: 44px !important;
+        margin: 10px 0 0;
+      }
+
+      #dayTypeText {
+        margin-top: 10px;
+        font-size: 16px;
       }
 
       #timeButtons {
@@ -665,14 +703,14 @@
       <aside class="timetable-wrapper">
         <div class="timetable-title">開放時間表</div>
         <img
-          src="timetable.png"
-          onerror="this.onerror=null; this.src='timetable.png';"
+          src="./timetable.png"
+          onerror="this.onerror=null; this.src='./K館時間表.png';"
           alt="Aspect K書會館時間表"
           class="timetable-image"
           onclick="openTimetable()"
         />
         <p class="zoom-tip">🔍 點擊時間表可放大查看</p>
-        <p class="timetable-note">電腦版固定於左側，手機版可左右滑動查看完整時間表。</p>
+        <p class="timetable-note">電腦版固定於左側，手機版請使用右下角「時間表」按鈕查看。</p>
       </aside>
 
       <div class="booking-area">
@@ -788,10 +826,21 @@
   </div>
 
 
+
+  <button
+    type="button"
+    class="mobile-timetable-btn"
+    onclick="openTimetable()"
+    aria-label="查看開放時間表"
+  >
+    <span class="mobile-timetable-icon">📅</span>
+    <span>時間表</span>
+  </button>
+
   <div id="imageModal" class="image-modal" onclick="closeTimetable()">
     <span class="close-modal" onclick="closeTimetable()">&times;</span>
     <img
-      src="./timetable.png"
+      src=".timetable.png"
       onerror="this.onerror=null; this.src='./K館時間表.png';"
       alt="Aspect K書會館時間表放大圖"
       class="modal-image"
