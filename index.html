@@ -1515,9 +1515,7 @@
         cancel_token: cancelToken,
         payment_method: paymentMethod,
         payment_status:
-        paymentMethod === "匯款"
-          ? "待核對匯款"
-          : "現場付款",
+        paymentMethod === "匯款"? "待核對匯款": "現場付款",
         total_price: totalPrice
       }));
 
