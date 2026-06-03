@@ -838,26 +838,6 @@
             </label>
           </div>
 
-        <div id="transferLast5Box" style="display:none;margin-top:15px;">
-        <label style="font-weight:bold;color:#8b3a0e;">
-          匯款後五碼
-        </label>
-
-      <input
-        id="transferLast5"
-        type="text"
-        maxlength="5"
-        placeholder="請輸入匯款後五碼"
-        style="
-          width:100%;
-          margin-top:8px;
-          padding:12px;
-          border:1px solid #ccc;
-          border-radius:8px;
-          box-sizing:border-box;
-        "
-  >
-</div>
 
           <div id="transferInfoBox" class="transfer-info-box">
             <strong>匯款資訊</strong><br />
@@ -1080,13 +1060,13 @@
       const cashPaymentChoice = document.getElementById("cashPaymentChoice");
       const transferPaymentChoice = document.getElementById("transferPaymentChoice");
       const sidePaymentMethod = document.getElementById("sidePaymentMethod");
-      const sidePaymentNote = document.getElementById("sidePaymentNote");
-      const transferLast5Box = document.getElementById("transferLast5Box");
+      const sidePaymentNote = document.getElementById("sidePaymentNote")
+      
 
       if (cashPaymentChoice) cashPaymentChoice.classList.toggle("active", paymentMethod === "現金臨櫃付款");
       if (transferPaymentChoice) transferPaymentChoice.classList.toggle("active", paymentMethod === "匯款");
       if (transferInfoBox) transferInfoBox.classList.toggle("show", paymentMethod === "匯款");
-      if (transferLast5Box) {transferLast5Box.style.display = paymentMethod === "匯款" ? "block" : "none";}
+      
 
       if (sidePaymentMethod) sidePaymentMethod.innerText = paymentMethod;
       if (sidePaymentNote) {
@@ -1518,14 +1498,6 @@
       const timeText = selectedTimes.join("、");
       const slotCount = selectedTimes.length;
       const paymentMethod = getSelectedPaymentMethod();
-      const transferLast5 = document.getElementById("transferLast5")
-      ? document.getElementById("transferLast5").value.trim()
-      : "";
-
-    if (paymentMethod === "匯款" && !/^\d{5}$/.test(transferLast5)) {
-      alert("請輸入正確的匯款後五碼");
-      return;
-    }
       const totalPrice = calculateTotalPrice();
       const cancelToken = generateCancelToken();
       const cancelUrl = buildCancelUrl(selectedDate, phone, email, cancelToken);
@@ -1562,27 +1534,23 @@
         console.error("更新鎖位狀態失敗：", confirmLockError);
       }
 
-      const bookingData = {
-        name: name,
-        phone: phone,
-        email: email,
-        date: selectedDate,
-        dayType: selectedDayType,
-        time: timeText,
-        row: selectedRow,
-        seat: selectedRow,
-        userType: userType,
-        unitPrice: UNIT_PRICE,
-        slotCount: slotCount,
-        totalPrice: totalPrice,
-        paymentMethod: paymentMethod,
-        cancelToken: cancelToken,
-        cancelUrl: cancelUrl,
-        transferLast5: transferLast5,
-        paymentMethod: paymentMethod,
-        transferLast5: transferLast5,
-        cancelToken: cancelToken,
-      };
+     const bookingData = {
+      name: name,
+      phone: phone,
+      email: email,
+      date: selectedDate,
+      dayType: selectedDayType,
+      time: timeText,
+      row: selectedRow,
+      seat: selectedRow,
+      userType: userType,
+      unitPrice: UNIT_PRICE,
+      slotCount: slotCount,
+      totalPrice: totalPrice,
+      paymentMethod: paymentMethod,
+      cancelToken: cancelToken,
+      cancelUrl: cancelUrl
+    };
 
       
 
